@@ -172,6 +172,8 @@ function AddGoalModal({ onClose, onAdd }) {
 
 function MoneyHeader({ range, onRangeChange }) {
   const { SilverText } = fsdDS;
+  const { t, useLang } = window.FsdI18n;
+  const lang = useLang();
   const ranges = [
     { id: "week",  label: "This week" },
     { id: "month", label: "This month" },
@@ -181,8 +183,8 @@ function MoneyHeader({ range, onRangeChange }) {
     <div className="ds-c12" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", padding: "12px 4px 4px" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         <span className="dash-kicker">Thursday · 12 June</span>
-        <SilverText as="h1" style={{ fontSize: "40px", margin: 0 }}>Aapka Paisa.</SilverText>
-        <span style={{ fontFamily: "var(--font-devanagari)", fontSize: "var(--text-sm)", color: "var(--text-secondary)", letterSpacing: "0.04em" }}>पैसे का पूरा हिसाब, एक जगह।</span>
+        <SilverText as="h1" style={{ fontSize: "40px", margin: 0 }}>{t("money.h1")}</SilverText>
+        <span style={{ fontFamily: lang === "en" ? "var(--font-body)" : "var(--font-devanagari)", fontSize: "var(--text-sm)", color: "var(--text-secondary)", letterSpacing: "0.04em" }}>{t("money.sub")}</span>
       </div>
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
         {ranges.map((r) => (
@@ -319,7 +321,7 @@ function BudgetPanel() {
           </div>
         ))}
       </div>
-      <GlassBadge icon="💡" tint="blue" title="Sathi tip" subtitle="Groceries pe ₹40 kam karein — ₹500/month bachenge." />
+      <GlassBadge icon="💡" tint="blue" title="Sathi tip" subtitle={window.FsdI18n.t("money.tip")} />
     </section>
   );
 }

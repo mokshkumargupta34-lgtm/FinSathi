@@ -157,12 +157,14 @@ function LessonModal({ lesson, onClose }) {
 
 function GrowHeader() {
   const { SilverText } = fsdDS;
+  const { t, useLang } = window.FsdI18n;
+  const lang = useLang();
   return (
     <div className="ds-c12" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", padding: "12px 4px 4px" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         <span className="dash-kicker">Thursday · 12 June</span>
-        <SilverText as="h1" style={{ fontSize: "40px", margin: 0 }}>Badhte Raho.</SilverText>
-        <span style={{ fontFamily: "var(--font-devanagari)", fontSize: "var(--text-sm)", color: "var(--text-secondary)", letterSpacing: "0.04em" }}>आपकी तरक्की, हर कदम।</span>
+        <SilverText as="h1" style={{ fontSize: "40px", margin: 0 }}>{t("grow.h1")}</SilverText>
+        <span style={{ fontFamily: lang === "en" ? "var(--font-body)" : "var(--font-devanagari)", fontSize: "var(--text-sm)", color: "var(--text-secondary)", letterSpacing: "0.04em" }}>{t("grow.sub")}</span>
       </div>
       <span className="dash-pill dash-pill-emerald" style={{ fontSize: "11px", padding: "6px 14px" }}>Trust Score · 72 / 100</span>
     </div>
@@ -222,7 +224,7 @@ function TrustScoreHero() {
         ))}
       </div>
 
-      <GlassBadge icon="🎯" tint="emerald" title="Almost there!" subtitle="3 aur din log karein — score 75 ho jayega." />
+      <GlassBadge icon="🎯" tint="emerald" title="Almost there!" subtitle={window.FsdI18n.t("grow.almost")} />
     </DeepCard>
   );
 }
@@ -298,6 +300,25 @@ function LoanMarketplaceFull() {
 
 /* ---------- Sathi Academy — full curriculum ---------- */
 
+const LESSON_TITLE_EN = {
+  "Emergency fund kaise banayein":      "How to build an emergency fund",
+  "UPI aur online safety":              "UPI and online safety",
+  "Bachat ke 3 aasaan tarike":          "3 easy ways to save",
+  "Goals set karna — sahi tarika":      "Setting goals — the right way",
+  "Mahine ka budget kaise banayein":    "How to make a monthly budget",
+  "Fraud se kaise bachein":             "How to avoid fraud",
+  "Jan Dhan account ke fayde":          "Benefits of Jan Dhan account",
+  "Insurance kya hota hai":             "What is insurance",
+  "Nominee kyon zaroori hai":           "Why a nominee is important",
+  "OTP aur password suraksha":          "OTP and password security",
+  "Chota vyaapaar kaise shuru karein":  "How to start a small business",
+  "MUDRA loan kya hai":                 "What is a MUDRA loan",
+  "Mahila udyog — sarkari yojnayein":   "Women entrepreneurs — government schemes",
+  "Credit score kaise badhayein":       "How to improve your credit score",
+  "Mutual fund — pehla kadam":          "Mutual funds — first steps",
+  "Retirement ke liye bachat":          "Saving for retirement",
+};
+
 const ACADEMY_MODULES = [
   {
     name: "Bachat · Savings",
@@ -338,10 +359,15 @@ const ACADEMY_MODULES = [
 function AcademyFull() {
   const { DeepCard, Button } = fsdDS;
   const { IcBookOpen, IcCheck } = window.FsdIcons;
+  const { t, useLang } = window.FsdI18n;
+  const lang = useLang();
   const [activeLesson, setActiveLesson] = React.useState(null);
 
   const totalLessons = ACADEMY_MODULES.reduce((s, m) => s + m.lessons.length, 0);
   const doneLessons  = ACADEMY_MODULES.reduce((s, m) => s + m.lessons.filter((l) => l.pct === 100).length, 0);
+
+  const lessonTitle = (l) => lang === "en" ? (LESSON_TITLE_EN[l.title] || l.title) : l.title;
+  const lessonMeta  = (l) => l.meta.replace("हिंदी", t("lesson.lang"));
 
   return (
     <DeepCard id="academy" className="ds-c7" radius="32px" style={{ padding: "30px 32px", display: "flex", flexDirection: "column", gap: "22px", scrollMarginTop: "88px" }}>
@@ -359,8 +385,8 @@ function AcademyFull() {
                 <FsdIconWell icon={l.pct === 100 ? IcCheck : IcBookOpen} tone={l.pct === 100 ? "emerald" : isActive ? "blue" : "zinc"} size={30} />
                 <span style={{ display: "flex", flexDirection: "column", gap: "5px", flex: 1, minWidth: 0 }}>
                   <span style={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
-                    <span style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: l.pct === 0 ? "var(--text-muted)" : "var(--text-primary)" }}>{l.title}</span>
-                    <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", whiteSpace: "nowrap", fontFamily: "var(--font-devanagari)" }}>{l.meta}</span>
+                    <span style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: l.pct === 0 ? "var(--text-muted)" : "var(--text-primary)" }}>{lessonTitle(l)}</span>
+                    <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", whiteSpace: "nowrap", fontFamily: lang === "en" ? "var(--font-body)" : "var(--font-devanagari)" }}>{lessonMeta(l)}</span>
                   </span>
                   {l.pct > 0 && <span className="dash-bar"><i style={{ width: `${l.pct}%`, background: l.pct === 100 ? "var(--emerald-500)" : "var(--blue-500)" }}></i></span>}
                 </span>
