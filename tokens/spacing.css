@@ -1,0 +1,71 @@
+/* FinSathi spacing, radius & shadow tokens.
+   Radii and shadow stacks lifted verbatim from the landing hero's
+   skeuomorphic material system. */
+
+:root {
+  /* ---- Spacing scale (4px base) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* ---- Radii ---- */
+  --radius-input: 10px;      /* inputs, small controls */
+  --radius-widget: 16px;     /* phone widgets, list rows */
+  --radius-badge: 16px;      /* glass badges */
+  --radius-btn: 20px;        /* tactile CTA buttons (1.25rem) */
+  --radius-card-sm: 32px;    /* deep card, mobile */
+  --radius-card: 40px;       /* deep card, desktop */
+  --radius-pill: 999px;
+  --radius-brutal: 0px;      /* brutal button default: square */
+
+  /* ---- Shadow stacks (skeuomorphic materials) ---- */
+  --shadow-card-deep:
+    0 40px 100px -20px rgba(0, 0, 0, 0.9),
+    0 20px 40px -20px rgba(0, 0, 0, 0.8),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.8);
+
+  --shadow-btn-light:
+    0 0 0 1px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.1),
+    0 12px 24px -4px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255,255,255,1), inset 0 -3px 6px rgba(0,0,0,0.06);
+  --shadow-btn-light-hover:
+    0 0 0 1px rgba(0,0,0,0.05), 0 6px 12px -2px rgba(0,0,0,0.15),
+    0 20px 32px -6px rgba(0,0,0,0.4),
+    inset 0 1px 1px rgba(255,255,255,1), inset 0 -3px 6px rgba(0,0,0,0.06);
+  --shadow-btn-light-active:
+    0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1),
+    inset 0 3px 6px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(0,0,0,0.02);
+
+  --shadow-btn-dark:
+    0 0 0 1px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.6),
+    0 12px 24px -4px rgba(0,0,0,0.9),
+    inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -3px 6px rgba(0,0,0,0.8);
+  --shadow-btn-dark-hover:
+    0 0 0 1px rgba(255,255,255,0.15), 0 6px 12px -2px rgba(0,0,0,0.7),
+    0 20px 32px -6px rgba(0,0,0,1),
+    inset 0 1px 1px rgba(255,255,255,0.2), inset 0 -3px 6px rgba(0,0,0,0.8);
+  --shadow-btn-dark-active:
+    0 0 0 1px rgba(255,255,255,0.05),
+    inset 0 3px 8px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(0,0,0,0.5);
+
+  --shadow-widget:
+    0 10px 20px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.05), inset 0 -1px 1px rgba(0,0,0,0.5);
+
+  --shadow-glass:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    inset 0 1px 1px rgba(255,255,255,0.2), inset 0 -1px 1px rgba(0,0,0,0.5);
+
+  --shadow-brutal: 4px 4px 0px var(--text-primary);
+  --shadow-brutal-hover: 6px 6px 0px var(--text-primary);
+}

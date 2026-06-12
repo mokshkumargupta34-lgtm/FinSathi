@@ -1,0 +1,24 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Night palette" subtitle="Page ink, brand navys, electric blue" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: var(--bg-page); font-family: var(--font-mono); }
+  .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 14px; }
+  .sw { height: 92px; border-radius: 12px; border: 1px solid var(--border-soft); padding: 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-end; }
+  .sw span { font-size: 10px; color: rgba(255,255,255,0.85); display: block; }
+  .sw em { font-style: normal; font-size: 10px; color: rgba(255,255,255,0.45); }
+</style>
+</head>
+<body>
+<div class="row">
+  <div class="sw" style="background: var(--ink-950);"><span>--ink-950</span><em>#050914</em></div>
+  <div class="sw" style="background: var(--navy-950);"><span>--navy-950</span><em>#0A101D</em></div>
+  <div class="sw" style="background: var(--navy-700);"><span>--navy-700</span><em>#162C6D</em></div>
+  <div class="sw" style="background: var(--blue-500);"><span>--blue-500</span><em>#3B82F6</em></div>
+  <div class="sw" style="background: var(--blue-400);"><span>--blue-400</span><em>#60A5FA</em></div>
+</div>
+</body>
+</html>

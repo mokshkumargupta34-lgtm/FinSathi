@@ -1,0 +1,45 @@
+<!-- @dsCard group="Components" viewport="700x400" name="Display" subtitle="DeepCard, GlassBadge, WidgetRow, ProgressRing" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; background: var(--bg-page); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { DeepCard, GlassBadge, WidgetRow, ProgressRing } = window.FinSathiDesignSystem_400c38;
+
+const Check = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+);
+const MicIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+);
+
+function Card() {
+  return (
+    <div style={{ padding: "24px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", alignItems: "start" }}>
+      <DeepCard style={{ padding: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <ProgressRing value={0.85} size={150} metric="₹12.5k" label="Saved this year" />
+      </DeepCard>
+      <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+        <GlassBadge icon="🎙️" title="Voice first" subtitle="Speak in your language" />
+        <WidgetRow icon={<MicIcon />} title="Voice note saved" subtitle="Budget for Diwali" trailing="₹3,000" />
+        <WidgetRow icon={<Check />} tint="emerald" title="Goal reached" subtitle="Emergency fund" trailing="₹5,000" />
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Card />);
+</script>
+</body>
+</html>

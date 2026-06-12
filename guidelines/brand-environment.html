@@ -1,0 +1,26 @@
+<!-- @dsCard group="Brand" viewport="700x190" name="Environment overlays" subtitle="Film grain 5% + blueprint grid, radially masked" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: var(--bg-page); }
+  .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px; }
+  .pane { position: relative; height: 130px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-soft); background: var(--bg-page); }
+  .pane b { position: absolute; left: 12px; bottom: 10px; z-index: 60; font-family: var(--font-mono); font-weight: 400; font-size: 10px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pane">
+    <div class="fs-grain" style="opacity: 0.25;"></div>
+    <b>.fs-grain — SVG noise, mix-blend overlay (shown 5×)</b>
+  </div>
+  <div class="pane">
+    <div class="fs-grid" style="position: absolute; inset: 0;"></div>
+    <b>.fs-grid — 60px blueprint grid, radial fade</b>
+  </div>
+</div>
+</body>
+</html>

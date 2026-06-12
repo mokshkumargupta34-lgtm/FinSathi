@@ -1,0 +1,24 @@
+<!-- @dsCard group="Spacing" viewport="700x210" name="Shadow materials" subtitle="Skeuomorphic stacks: card, buttons, widget, glass, brutal" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: #0B1120; }
+  .wrap { padding: 28px 24px 36px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+  .chip { height: 84px; border-radius: var(--radius-widget); display: flex; align-items: flex-end; padding: 8px; box-sizing: border-box; }
+  .chip span { font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="chip" style="background: var(--gradient-card); box-shadow: var(--shadow-card-deep); border: 1px solid var(--border-hairline);"><span>card-deep</span></div>
+  <div class="chip" style="background: var(--gradient-btn-light); box-shadow: var(--shadow-btn-light); border-radius: var(--radius-btn);"><span style="color:#475569">btn-light</span></div>
+  <div class="chip" style="background: var(--gradient-btn-dark); box-shadow: var(--shadow-btn-dark); border-radius: var(--radius-btn);"><span>btn-dark</span></div>
+  <div class="chip" style="background: var(--gradient-widget); box-shadow: var(--shadow-widget); border: 1px solid rgba(255,255,255,0.03);"><span>widget</span></div>
+  <div class="chip" style="background: var(--gradient-glass); box-shadow: var(--shadow-glass); backdrop-filter: blur(24px);"><span>glass</span></div>
+  <div class="chip" style="background: var(--bg-page); border: 2px solid #fff; border-radius: 0; box-shadow: var(--shadow-brutal);"><span>brutal</span></div>
+</div>
+</body>
+</html>

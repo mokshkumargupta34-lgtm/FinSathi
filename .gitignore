@@ -1,0 +1,4 @@
+site-static.log
+site-static.err
+node_modules/
+dist/

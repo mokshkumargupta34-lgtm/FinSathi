@@ -1,0 +1,59 @@
+/* FinSathi color tokens.
+   Sourced from the cinematic landing hero, auth, and button component code:
+   deep navy card gradient (#162C6D → #0A101D), near-black screen ink
+   (#050914), electric blue accent (#3B82F6), silver matte text gradient
+   (#FFFFFF → #A1A1AA), zinc hardware neutrals, emerald success. */
+
+:root {
+  /* ---- Base: inks & navys (the FinSathi night palette) ---- */
+  --ink-950: #050914;        /* page / screen background */
+  --navy-950: #0A101D;       /* card gradient end */
+  --navy-700: #162C6D;       /* card gradient start — brand navy */
+  --blue-500: #3B82F6;       /* electric blue — primary accent */
+  --blue-400: #60A5FA;
+  --blue-200: #BFDBFE;       /* muted copy on navy (used at 50% alpha) */
+
+  /* ---- Base: silver / zinc neutrals (hardware + text) ---- */
+  --white: #FFFFFF;
+  --silver-100: #F1F5F9;
+  --silver-200: #E2E8F0;
+  --silver-400: #A1A1AA;     /* silver gradient end */
+  --zinc-500: #71717A;
+  --zinc-600: #52525B;       /* bezel ring */
+  --zinc-700: #3F3F46;
+  --zinc-800: #27272A;       /* dark button top */
+  --zinc-900: #18181B;       /* dark button bottom */
+  --slate-900: #0F172A;      /* text on light buttons */
+
+  /* ---- Base: semantic hues ---- */
+  --emerald-500: #10B981;    /* success / growth */
+  --emerald-400: #34D399;
+  --red-500: #EF4444;        /* destructive */
+
+  /* ---- Semantic aliases ---- */
+  --bg-page: var(--ink-950);
+  --bg-screen: var(--ink-950);
+  --surface-navy: var(--navy-950);
+  --gradient-card: linear-gradient(145deg, var(--navy-700) 0%, var(--navy-950) 100%); /* @kind color */
+  --gradient-silver: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%); /* @kind color */
+  --gradient-btn-light: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%); /* @kind color */
+  --gradient-btn-dark: linear-gradient(180deg, #27272A 0%, #18181B 100%); /* @kind color */
+  --gradient-widget: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%); /* @kind color */
+  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.01) 100%); /* @kind color */
+
+  --text-primary: var(--white);
+  --text-secondary: rgba(191, 219, 254, 0.5);   /* blue-200 @ 50% */
+  --text-muted: var(--silver-400);
+  --text-on-light: var(--slate-900);
+
+  --accent: var(--blue-500);
+  --success: var(--emerald-500);
+  --destructive: var(--red-500);
+
+  --border-hairline: rgba(255, 255, 255, 0.04);
+  --border-soft: rgba(255, 255, 255, 0.10);
+  --border-glass: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(96, 165, 250, 0.20);    /* blue-400 @ 20% */
+
+  --focus-ring: var(--blue-500);
+}

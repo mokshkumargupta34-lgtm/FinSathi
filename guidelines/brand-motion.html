@@ -1,0 +1,30 @@
+<!-- @dsCard group="Brand" viewport="700x170" name="Motion" subtitle="Tactile press, expo entrances, scrubbed scroll scenes" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: var(--bg-page); }
+  .wrap { padding: 18px 24px; display: flex; flex-direction: column; gap: 14px; }
+  .lane { display: flex; align-items: center; gap: 16px; }
+  .lane span { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); width: 270px; flex-shrink: 0; }
+  .track { position: relative; flex: 1; height: 14px; border-radius: 7px; background: rgba(255,255,255,0.04); }
+  .dot { position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--blue-400); }
+  @media (prefers-reduced-motion: no-preference) {
+    .dot { animation: run 2.4s infinite alternate; }
+    .dot.tactile { animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1); }
+    .dot.expo { animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    .dot.power { animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+  }
+  @keyframes run { from { left: 2px; } to { left: calc(100% - 12px); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lane"><span>--ease-tactile · (0.25, 1, 0.5, 1) · presses, lifts</span><div class="track"><div class="dot tactile"></div></div></div>
+  <div class="lane"><span>--ease-expo · (0.16, 1, 0.3, 1) · entrances, reveals</span><div class="track"><div class="dot expo"></div></div></div>
+  <div class="lane"><span>--ease-in-out-power · (0.65, 0, 0.35, 1) · scroll scenes</span><div class="track"><div class="dot power"></div></div></div>
+</div>
+</body>
+</html>

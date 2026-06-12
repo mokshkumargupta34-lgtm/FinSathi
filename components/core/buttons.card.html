@@ -1,0 +1,44 @@
+<!-- @dsCard group="Components" viewport="700x320" name="Buttons" subtitle="Tactile light/dark materials + brutal accent" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; background: var(--bg-page); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { Button, BrutalButton } = window.FinSathiDesignSystem_400c38;
+
+function Card() {
+  return (
+    <div style={{ padding: "28px 32px", display: "flex", flexDirection: "column", gap: "24px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+        <Button variant="light" size="lg">Get FinSathi</Button>
+        <Button variant="dark" size="lg">Watch demo</Button>
+        <Button variant="ghost">Sign in</Button>
+        <Button variant="link">Learn more</Button>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+        <Button variant="light" size="sm">Small</Button>
+        <Button variant="light" size="md">Medium</Button>
+        <Button variant="dark" size="sm">Small</Button>
+        <Button variant="light" size="md" disabled>Disabled</Button>
+        <BrutalButton>Try voice mode</BrutalButton>
+        <BrutalButton color="var(--blue-500)" textColor="#fff" borderColor="#fff" shadowColor="#fff">बोलिए</BrutalButton>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Card />);
+</script>
+</body>
+</html>

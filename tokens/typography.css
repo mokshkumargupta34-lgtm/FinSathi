@@ -1,0 +1,45 @@
+/* FinSathi typography tokens.
+   Display: heavy, tight-tracked geometric sans (hero taglines, brand
+   wordmark in black caps). Body: humanist sans with Devanagari coverage
+   for vernacular users. Mono: scramble/decode text effects. */
+
+:root {
+  --font-display: 'Space Grotesk', 'Anek Devanagari', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', 'IBM Plex Sans Devanagari', system-ui, sans-serif;
+  --font-devanagari: 'IBM Plex Sans Devanagari', 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* ---- Scale (desktop) ---- */
+  --text-hero: 6rem;         /* 96px — hero taglines */
+  --text-wordmark: 8rem;     /* 128px — brand name in the deep card */
+  --text-display: 4.5rem;    /* 72px — CTA headings */
+  --text-h1: 2.25rem;        /* 36px */
+  --text-h2: 1.875rem;       /* 30px */
+  --text-h3: 1.5rem;         /* 24px */
+  --text-lg: 1.125rem;       /* 18px */
+  --text-body: 1rem;         /* 16px */
+  --text-sm: 0.875rem;       /* 14px */
+  --text-xs: 0.75rem;        /* 12px */
+  --text-micro: 0.625rem;    /* 10px — uppercase kicker labels */
+
+  /* ---- Weights ---- */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 700;       /* Space Grotesk caps at 700; used for "black" caps */
+
+  /* ---- Tracking ---- */
+  --tracking-tighter: -0.04em;  /* hero + wordmark */
+  --tracking-tight: -0.02em;    /* headings */
+  --tracking-wide: 0.05em;
+  --tracking-wider: 0.1em;      /* uppercase kickers */
+  --tracking-widest: 0.2em;     /* micro labels e.g. "TODAY" */
+
+  /* ---- Leading ---- */
+  --leading-none: 1;
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-relaxed: 1.625;
+}

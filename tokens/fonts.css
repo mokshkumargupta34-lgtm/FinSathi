@@ -1,0 +1,8 @@
+/* FinSathi webfonts.
+   No font binaries were provided in the source materials — these are the
+   nearest Google Fonts matches for the brand's geometric display sans,
+   humanist body sans (with Devanagari coverage for vernacular UI), and
+   the mono used by the SpecialText scramble effect.
+   Flagged as a substitution in readme.md. */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Devanagari:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');

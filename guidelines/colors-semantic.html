@@ -1,0 +1,27 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Semantic colors" subtitle="Accent, success, destructive + text aliases" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: var(--bg-page); font-family: var(--font-mono); }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px 14px 8px; }
+  .sw { height: 56px; border-radius: 10px; border: 1px solid var(--border-soft); padding: 8px 10px; box-sizing: border-box; display: flex; align-items: flex-end; }
+  .sw span { font-size: 10px; color: #fff; }
+  .texts { display: flex; gap: 28px; padding: 4px 16px 14px; font-family: var(--font-body); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="row">
+  <div class="sw" style="background: var(--accent);"><span>--accent</span></div>
+  <div class="sw" style="background: var(--success);"><span>--success</span></div>
+  <div class="sw" style="background: var(--destructive);"><span>--destructive</span></div>
+</div>
+<div class="texts">
+  <span style="color: var(--text-primary);">--text-primary</span>
+  <span style="color: var(--text-secondary);">--text-secondary</span>
+  <span style="color: var(--text-muted);">--text-muted</span>
+</div>
+</body>
+</html>
