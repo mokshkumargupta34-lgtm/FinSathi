@@ -157,8 +157,9 @@ function LessonModal({ lesson, onClose }) {
 
 function GrowHeader() {
   const { SilverText } = fsdDS;
-  const { t, useLang } = window.FsdI18n;
-  const lang = useLang();
+  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
+  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
+  const t = window.FsdI18n.t;
   return (
     <div className="ds-c12" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", padding: "12px 4px 4px" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -359,8 +360,9 @@ const ACADEMY_MODULES = [
 function AcademyFull() {
   const { DeepCard, Button } = fsdDS;
   const { IcBookOpen, IcCheck } = window.FsdIcons;
-  const { t, useLang } = window.FsdI18n;
-  const lang = useLang();
+  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
+  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
+  const t = window.FsdI18n.t;
   const [activeLesson, setActiveLesson] = React.useState(null);
 
   const totalLessons = ACADEMY_MODULES.reduce((s, m) => s + m.lessons.length, 0);

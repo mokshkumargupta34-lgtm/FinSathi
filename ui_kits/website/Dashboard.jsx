@@ -102,8 +102,9 @@ function LoanDetailModal({ loan, onClose }) {
 function VoiceLogCard() {
   const { DeepCard, Typewriter } = fsdDS;
   const { IcMic, IcCheck } = window.FsdIcons;
-  const { t, useLang } = window.FsdI18n;
-  const lang = useLang();
+  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
+  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
+  const t = window.FsdI18n.t;
   const [phase, setPhase]       = React.useState(“idle”);
   const [voiceLang, setVoiceLang] = React.useState(“हिंदी”);
   const timer = React.useRef(null);
@@ -291,8 +292,9 @@ const FSD_LESSONS = [
 function AcademyPanel() {
   const { Button } = fsdDS;
   const { IcBookOpen, IcCheck } = window.FsdIcons;
-  const { t, useLang } = window.FsdI18n;
-  const lang = useLang();
+  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
+  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
+  const t = window.FsdI18n.t;
   return (
     <section id="academy" className="dash-panel ds-c5">
       <FsdPanelHead kicker="Sathi Academy" title="Keep learning" trailing={<span className="dash-pill dash-pill-zinc">5 / 16 lessons</span>} />
@@ -366,8 +368,9 @@ function LoansPanel() {
 function SathiAIPanel() {
   const { Typewriter } = fsdDS;
   const { IcSparkles, IcMic, IcSend } = window.FsdIcons;
-  const { t, useLang } = window.FsdI18n;
-  const lang  = useLang();
+  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
+  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
+  const t = window.FsdI18n.t;
   const [draft, setDraft] = React.useState(“”);
   const [asked, setAsked] = React.useState(null);
 
@@ -421,8 +424,9 @@ function SathiAIPanel() {
 
 function DashboardPage() {
   const { SilverText, GlassBadge } = fsdDS;
-  const { t, useLang } = window.FsdI18n;
-  const lang = useLang();
+  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
+  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
+  const t = window.FsdI18n.t;
   return (
     <div id="top" data-screen-label="Dashboard — post-login home" style={{ position: "relative", minHeight: "100vh" }}>
       <div className="fsd-env" aria-hidden="true">

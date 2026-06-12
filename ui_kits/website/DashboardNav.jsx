@@ -111,16 +111,9 @@ window.FsdI18n = (() => {
 
   const getLang = () => _code;
 
-  const useLang = () => {
-    const [code, setCode] = React.useState(_code);
-    React.useEffect(() => {
-      _subs.push(setCode);
-      return () => { _subs = _subs.filter((fn) => fn !== setCode); };
-    }, []);
-    return code;
-  };
+  const subscribe = (fn) => { _subs.push(fn); return () => { _subs = _subs.filter((s) => s !== fn); }; };
 
-  return { t, setLang, getLang, useLang };
+  return { t, setLang, getLang, subscribe };
 })();
 
 /* ---------- Nav sub-components ---------- */
@@ -161,8 +154,9 @@ function DashboardNav({ activePage = "dashboard" }) {
   const { IcChevronDown, IcGlobe, IcMic, IcReceipt, IcTarget, IcShieldCheck, IcBanknote, IcGraduationCap, IcSparkles, IcCheck } = window.FsdIcons;
   const [open, setOpen]         = React.useState(null);
   const [langOpen, setLangOpen] = React.useState(false);
-  const langCode = window.FsdI18n.useLang();
-  const lang     = FSD_LANGS.find((l) => l.code === langCode) || FSD_LANGS[1];
+  const [langCode, setLangCode] = React.useState(window.FsdI18n.getLang());
+  const lang = FSD_LANGS.find((l) => l.code === langCode) || FSD_LANGS[1];
+  React.useEffect(() => window.FsdI18n.subscribe(setLangCode), []);
   const rootRef  = React.useRef(null);
 
   React.useEffect(() => {

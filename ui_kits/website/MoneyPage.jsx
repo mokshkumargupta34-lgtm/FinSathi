@@ -172,8 +172,9 @@ function AddGoalModal({ onClose, onAdd }) {
 
 function MoneyHeader({ range, onRangeChange }) {
   const { SilverText } = fsdDS;
-  const { t, useLang } = window.FsdI18n;
-  const lang = useLang();
+  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
+  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
+  const t = window.FsdI18n.t;
   const ranges = [
     { id: "week",  label: "This week" },
     { id: "month", label: "This month" },
