@@ -119,9 +119,9 @@ function VoiceLogCard() {
       <div style={{ display: "flex", justifyContent: "space-between", gap: "24px", alignItems: "flex-start" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "330px" }}>
           <span className="dash-kicker" style={{ color: "rgba(191,219,254,0.6)" }}>Voice log</span>
-          <h2 style={{ margin: 0, fontFamily: “var(--font-display)”, fontSize: “28px”, fontWeight: 700, letterSpacing: “var(--tracking-tight)”, lineHeight: “var(--leading-tight)”, color: “var(--text-primary)” }}>Speak to log it.</h2>
-          <p style={{ margin: 0, fontSize: “var(--text-sm)”, fontWeight: 300, lineHeight: “var(--leading-relaxed)”, color: “var(--text-secondary)”, textWrap: “pretty” }}>
-            Tap the mic and speak — <span style={{ fontFamily: “var(--font-body)” }}>”Spent ₹250 on vegetables today”</span> — Sathi sorts it into your ledger.
+          <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontSize: "28px", fontWeight: 700, letterSpacing: "var(--tracking-tight)", lineHeight: "var(--leading-tight)", color: "var(--text-primary)" }}>Speak to log it.</h2>
+          <p style={{ margin: 0, fontSize: "var(--text-sm)", fontWeight: 300, lineHeight: "var(--leading-relaxed)", color: "var(--text-secondary)", textWrap: "pretty" }}>
+            Tap the mic and speak — <span style={{ fontFamily: "var(--font-body)" }}>"Spent ₹250 on vegetables today"</span> — Sathi sorts it into your ledger.
           </p>
         </div>
 
@@ -149,8 +149,8 @@ function VoiceLogCard() {
           <span style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)", fontWeight: 300 }}>Your last log appears here — speak in any language.</span>
         )}
         {phase === "listening" && (
-          <span style={{ fontFamily: “var(--font-body)”, fontSize: “var(--text-body)”, color: “var(--text-primary)” }}>
-            “<Typewriter text=”Spent ₹60 on milk today…” speed={70} />”
+          <span style={{ fontFamily: "var(--font-body)", fontSize: "var(--text-body)", color: "var(--text-primary)" }}>
+            "<Typewriter text="Spent ₹60 on milk today…" speed={70} />"
           </span>
         )}
         {phase === "logged" && (
