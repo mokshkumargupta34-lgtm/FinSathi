@@ -102,78 +102,73 @@ function LoanDetailModal({ loan, onClose }) {
 function VoiceLogCard() {
   const { DeepCard, Typewriter } = fsdDS;
   const { IcMic, IcCheck } = window.FsdIcons;
-  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
-  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
-  const t = window.FsdI18n.t;
-  const [phase, setPhase]       = React.useState(“idle”);
-  const [voiceLang, setVoiceLang] = React.useState(“हिंदी”);
+  const [phase, setPhase] = React.useState("idle"); // idle | listening | logged
+  const [voiceLang, setVoiceLang] = React.useState("English");
   const timer = React.useRef(null);
 
   const startListening = () => {
-    if (phase === “listening”) return;
-    setPhase(“listening”);
+    if (phase === "listening") return;
+    setPhase("listening");
     clearTimeout(timer.current);
-    timer.current = setTimeout(() => setPhase(“logged”), 3400);
+    timer.current = setTimeout(() => setPhase("logged"), 3400);
   };
   React.useEffect(() => () => clearTimeout(timer.current), []);
 
-  const isDevanagari = lang !== “en”;
-
   return (
-    <DeepCard id=”voice-log” className=”ds-c7” radius=”32px” style={{ padding: “30px 32px”, display: “flex”, flexDirection: “column”, gap: “20px”, scrollMarginTop: “88px” }}>
-      <div style={{ display: “flex”, justifyContent: “space-between”, gap: “24px”, alignItems: “flex-start” }}>
-        <div style={{ display: “flex”, flexDirection: “column”, gap: “10px”, maxWidth: “330px” }}>
-          <span className=”dash-kicker” style={{ color: “rgba(191,219,254,0.6)” }}>Voice log</span>
-          <h2 style={{ margin: 0, fontFamily: “var(--font-display)”, fontSize: “28px”, fontWeight: 700, letterSpacing: “var(--tracking-tight)”, lineHeight: “var(--leading-tight)”, color: “var(--text-primary)” }}>{t(“voice.h2”)}</h2>
+    <DeepCard id="voice-log" className="ds-c7" radius="32px" style={{ padding: "30px 32px", display: "flex", flexDirection: "column", gap: "20px", scrollMarginTop: "88px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: "24px", alignItems: "flex-start" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "330px" }}>
+          <span className="dash-kicker" style={{ color: "rgba(191,219,254,0.6)" }}>Voice log</span>
+          <h2 style={{ margin: 0, fontFamily: “var(--font-display)”, fontSize: “28px”, fontWeight: 700, letterSpacing: “var(--tracking-tight)”, lineHeight: “var(--leading-tight)”, color: “var(--text-primary)” }}>Speak to log it.</h2>
           <p style={{ margin: 0, fontSize: “var(--text-sm)”, fontWeight: 300, lineHeight: “var(--leading-relaxed)”, color: “var(--text-secondary)”, textWrap: “pretty” }}>
-            Tap the mic and speak — <span style={{ fontFamily: isDevanagari ? “var(--font-devanagari)” : “var(--font-body)” }}>{t(“voice.example”)}</span> — Sathi sorts it into your ledger.
+            Tap the mic and speak — <span style={{ fontFamily: “var(--font-body)” }}>”Spent ₹250 on vegetables today”</span> — Sathi sorts it into your ledger.
           </p>
         </div>
 
-        <div style={{ display: “flex”, flexDirection: “column”, alignItems: “center”, gap: “12px”, paddingTop: “4px” }}>
-          <span style={{ position: “relative”, display: “inline-flex” }}>
-            <span className=”fsd-pulse” data-on={phase === “listening”} style={{ position: “absolute”, inset: 0, borderRadius: “50%” }} aria-hidden=”true”></span>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", paddingTop: "4px" }}>
+          <span style={{ position: "relative", display: "inline-flex" }}>
+            <span className="fsd-pulse" data-on={phase === "listening"} style={{ position: "absolute", inset: 0, borderRadius: "50%" }} aria-hidden="true"></span>
             <button
               onClick={startListening}
-              aria-label=”Start voice log”
-              style={{ position: “relative”, width: “84px”, height: “84px”, borderRadius: “50%”, border: “none”, cursor: “pointer”, color: phase === “listening” ? “var(--blue-400)” : “var(--silver-200)”, background: “var(--gradient-btn-dark)”, boxShadow: “var(--shadow-btn-dark)”, display: “flex”, alignItems: “center”, justifyContent: “center”, transition: “transform 0.4s var(--ease-tactile)” }}
-              onMouseDown={(e) => { e.currentTarget.style.transform = “translateY(1px)”; }}
-              onMouseUp={(e) => { e.currentTarget.style.transform = “”; }}
+              aria-label="Start voice log"
+              style={{ position: "relative", width: "84px", height: "84px", borderRadius: "50%", border: "none", cursor: "pointer", color: phase === "listening" ? "var(--blue-400)" : "var(--silver-200)", background: "var(--gradient-btn-dark)", boxShadow: "var(--shadow-btn-dark)", display: "flex", alignItems: "center", justifyContent: "center", transition: "transform 0.4s var(--ease-tactile)" }}
+              onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(1px)"; }}
+              onMouseUp={(e) => { e.currentTarget.style.transform = ""; }}
             >
               <IcMic size={30} />
             </button>
           </span>
-          {phase === “listening”
-            ? <span className=”fsd-bars” aria-hidden=”true”><span></span><span></span><span></span><span></span><span></span></span>
-            : <span style={{ fontSize: “10px”, letterSpacing: “var(--tracking-widest)”, textTransform: “uppercase”, fontWeight: 700, color: “var(--text-muted)” }}>Tap to speak</span>}
+          {phase === "listening"
+            ? <span className="fsd-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+            : <span style={{ fontSize: "10px", letterSpacing: "var(--tracking-widest)", textTransform: "uppercase", fontWeight: 700, color: "var(--text-muted)" }}>Tap to speak</span>}
         </div>
       </div>
 
-      <div className=”fs-widget” style={{ minHeight: “58px”, padding: “12px 16px”, display: “flex”, alignItems: “center”, gap: “12px” }}>
-        {phase === “idle” && (
-          <span style={{ fontSize: “var(--text-sm)”, color: “var(--text-muted)”, fontWeight: 300 }}>Your last log appears here.</span>
+      <div className="fs-widget" style={{ minHeight: "58px", padding: "12px 16px", display: "flex", alignItems: "center", gap: "12px" }}>
+        {phase === "idle" && (
+          <span style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)", fontWeight: 300 }}>Your last log appears here — speak in any language.</span>
         )}
-        {phase === “listening” && (
-          <span style={{ fontFamily: isDevanagari ? “var(--font-devanagari)” : “var(--font-body)”, fontSize: “var(--text-body)”, color: “var(--text-primary)” }}>
-            “<Typewriter key={lang} text={t(“voice.transcript”)} speed={70} />”
+        {phase === "listening" && (
+          <span style={{ fontFamily: “var(--font-body)”, fontSize: “var(--text-body)”, color: “var(--text-primary)” }}>
+            “<Typewriter text=”Spent ₹60 on milk today…” speed={70} />”
           </span>
         )}
-        {phase === “logged” && (
+        {phase === "logged" && (
           <React.Fragment>
-            <FsdIconWell icon={IcCheck} tone=”emerald” size={32} />
-            <span style={{ display: “flex”, flexDirection: “column”, gap: “2px” }}>
-              <span style={{ fontSize: “var(--text-sm)”, fontWeight: 600, color: “var(--text-primary)” }}>Logged — Milk · Groceries</span>
-              <span style={{ fontSize: “var(--text-xs)”, color: “var(--text-muted)”, fontFamily: isDevanagari ? “var(--font-devanagari)” : “var(--font-body)” }}>{t(“voice.logged.sub”)}</span>
+            <FsdIconWell icon={IcCheck} tone="emerald" size={32} />
+            <span style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+              <span style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-primary)" }}>Logged — Milk · Groceries</span>
+              <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>Milk — added by voice</span>
             </span>
-            <span style={{ marginLeft: “auto”, fontFamily: “var(--font-mono)”, fontSize: “var(--text-sm)”, color: “#F87171” }}>−₹60</span>
+            <span style={{ marginLeft: "auto", fontFamily: "var(--font-mono)", fontSize: "var(--text-sm)", color: "#F87171" }}>−₹60</span>
           </React.Fragment>
         )}
       </div>
 
-      <div style={{ display: “flex”, alignItems: “center”, gap: “8px”, flexWrap: “wrap” }}>
-        <span style={{ fontSize: “10px”, letterSpacing: “var(--tracking-widest)”, textTransform: “uppercase”, fontWeight: 700, color: “var(--text-muted)”, marginRight: “4px” }}>Speaks</span>
-        {[“हिंदी”, “English”, “தமிழ்”, “मराठी”].map((l) => (
-          <button key={l} className=”dash-chip” data-active={l === voiceLang} onClick={() => setVoiceLang(l)} style={{ fontFamily: l === “English” ? “var(--font-body)” : “var(--font-devanagari)” }}>{l}</button>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+        <span style={{ fontSize: "10px", letterSpacing: "var(--tracking-widest)", textTransform: "uppercase", fontWeight: 700, color: "var(--text-muted)", marginRight: "4px" }}>Speaks</span>
+        {["हिंदी", "English", "தமிழ்", "मराठी"].map((l) => (
+          <button key={l} className="dash-chip" data-active={l === voiceLang} onClick={() => setVoiceLang(l)} style={{ fontFamily: l === "English" ? "var(--font-body)" : "var(--font-devanagari)" }}>{l}</button>
         ))}
       </div>
     </DeepCard>
@@ -284,17 +279,14 @@ function TrustPanel() {
 /* ---------- 6 · Sathi Academy ---------- */
 
 const FSD_LESSONS = [
-  { title: "Emergency fund kaise banayein", titleEn: "How to build an emergency fund", meta: "3 min · हिंदी", pct: 100 },
-  { title: "UPI aur online safety",         titleEn: "UPI and online safety",          meta: "4 min · हिंदी", pct: 60 },
-  { title: "Bachat ke 3 aasaan tarike",     titleEn: "3 easy ways to save",            meta: "5 min · हिंदी", pct: 0 },
+  { title: "How to build an emergency fund", meta: "3 min · English", pct: 100 },
+  { title: "UPI and online safety tips",    meta: "4 min · English", pct: 60 },
+  { title: "3 easy ways to save money",     meta: "5 min · English", pct: 0 },
 ];
 
 function AcademyPanel() {
   const { Button } = fsdDS;
   const { IcBookOpen, IcCheck } = window.FsdIcons;
-  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
-  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
-  const t = window.FsdI18n.t;
   return (
     <section id="academy" className="dash-panel ds-c5">
       <FsdPanelHead kicker="Sathi Academy" title="Keep learning" trailing={<span className="dash-pill dash-pill-zinc">5 / 16 lessons</span>} />
@@ -304,8 +296,8 @@ function AcademyPanel() {
             <FsdIconWell icon={l.pct === 100 ? IcCheck : IcBookOpen} tone={l.pct === 100 ? "emerald" : "blue"} size={32} />
             <span style={{ display: "flex", flexDirection: "column", gap: "6px", flex: 1, minWidth: 0 }}>
               <span style={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
-                <span style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-primary)" }}>{lang === "en" ? l.titleEn : l.title}</span>
-                <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", whiteSpace: "nowrap", fontFamily: lang === "en" ? "var(--font-body)" : "var(--font-devanagari)" }}>{l.meta.replace("हिंदी", t("lesson.lang"))}</span>
+                <span style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text-primary)" }}>{l.title}</span>
+                <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", whiteSpace: "nowrap", fontFamily: "var(--font-devanagari)" }}>{l.meta}</span>
               </span>
               <span className="dash-bar"><i style={{ width: `${l.pct}%`, background: l.pct === 100 ? "var(--emerald-500)" : "var(--blue-500)" }}></i></span>
             </span>
@@ -368,51 +360,48 @@ function LoansPanel() {
 function SathiAIPanel() {
   const { Typewriter } = fsdDS;
   const { IcSparkles, IcMic, IcSend } = window.FsdIcons;
-  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
-  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
-  const t = window.FsdI18n.t;
-  const [draft, setDraft] = React.useState(“”);
+  const [draft, setDraft] = React.useState("");
   const [asked, setAsked] = React.useState(null);
 
-  const ask = (q) => { if (q.trim()) { setAsked(q.trim()); setDraft(“”); } };
-  const chips = [t(“ai.chip1”), t(“ai.chip2”), t(“ai.chip3”)];
+  const ask = (q) => { if (q.trim()) { setAsked(q.trim()); setDraft(""); } };
+  const reply = "This month you spent ₹7,830 — 12% less than last month. Set aside ₹40/day for your Diwali goal. Keep it up!";
 
   return (
-    <section id=”sathi-ai” className=”dash-panel ds-c12” style={{ gap: “16px” }}>
-      <div style={{ display: “flex”, alignItems: “center”, gap: “20px”, flexWrap: “wrap” }}>
-        <div style={{ display: “flex”, alignItems: “center”, gap: “14px”, minWidth: “230px” }}>
-          <FsdIconWell icon={IcSparkles} tone=”blue” size={40} />
-          <div style={{ display: “flex”, flexDirection: “column”, gap: “3px” }}>
-            <h2 className=”dash-h”>Ask Sathi</h2>
-            <span style={{ fontSize: “var(--text-xs)”, color: “var(--text-muted)”, fontFamily: lang === “en” ? “var(--font-body)” : “var(--font-devanagari)” }}>{t(“ai.sub”)}</span>
+    <section id="sathi-ai" className="dash-panel ds-c12" style={{ gap: "16px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "14px", minWidth: "230px" }}>
+          <FsdIconWell icon={IcSparkles} tone="blue" size={40} />
+          <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+            <h2 className="dash-h">Ask Sathi</h2>
+            <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>Ask in any language</span>
           </div>
         </div>
 
-        <div style={{ display: “flex”, gap: “8px”, flexWrap: “wrap”, flex: 1 }}>
-          {chips.map((q) => (
-            <button key={q} className=”dash-chip” onClick={() => ask(q)}>{q}</button>
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", flex: 1 }}>
+          {["How much did I save this month?", "When will my Diwali goal complete?", "What will my loan EMI be?"].map((q) => (
+            <button key={q} className="dash-chip" onClick={() => ask(q)}>{q}</button>
           ))}
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); ask(draft); }} style={{ display: “flex”, alignItems: “center”, gap: “8px”, flex: “1 1 360px”, maxWidth: “480px” }}>
-          <div style={{ flex: 1, display: “flex”, alignItems: “center”, gap: “8px”, background: “rgba(255,255,255,0.04)”, border: “1px solid var(--border-soft)”, borderRadius: “14px”, padding: “10px 8px 10px 16px”, boxShadow: “inset 0 1px 2px rgba(0,0,0,0.5)” }}>
+        <form onSubmit={(e) => { e.preventDefault(); ask(draft); }} style={{ display: "flex", alignItems: "center", gap: "8px", flex: "1 1 360px", maxWidth: "480px" }}>
+          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border-soft)", borderRadius: "14px", padding: "10px 8px 10px 16px", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.5)" }}>
             <input
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              placeholder={lang === “en” ? “Ask Sathi anything…” : “Sathi se kuchh bhi poochhiye…”}
-              style={{ flex: 1, minWidth: 0, background: “transparent”, border: “none”, outline: “none”, color: “var(--text-primary)”, fontSize: “var(--text-sm)”, fontFamily: “var(--font-body)” }}
+              placeholder="Ask Sathi anything…"
+              style={{ flex: 1, minWidth: 0, background: "transparent", border: "none", outline: "none", color: "var(--text-primary)", fontSize: "var(--text-sm)", fontFamily: "var(--font-body)" }}
             />
-            <button type=”button” aria-label=”Ask by voice” style={{ border: “none”, background: “transparent”, color: “var(--text-muted)”, cursor: “pointer”, display: “flex”, padding: “4px” }}><IcMic size={16} /></button>
+            <button type="button" aria-label="Ask by voice" style={{ border: "none", background: "transparent", color: "var(--text-muted)", cursor: "pointer", display: "flex", padding: "4px" }}><IcMic size={16} /></button>
           </div>
-          <button type=”submit” aria-label=”Send” style={{ width: “40px”, height: “40px”, flexShrink: 0, borderRadius: “12px”, border: “none”, cursor: “pointer”, color: “var(--ink-950)”, background: “var(--gradient-btn-light)”, boxShadow: “var(--shadow-btn-light)”, display: “flex”, alignItems: “center”, justifyContent: “center” }}><IcSend size={16} /></button>
+          <button type="submit" aria-label="Send" style={{ width: "40px", height: "40px", flexShrink: 0, borderRadius: "12px", border: "none", cursor: "pointer", color: "var(--ink-950)", background: "var(--gradient-btn-light)", boxShadow: "var(--shadow-btn-light)", display: "flex", alignItems: "center", justifyContent: "center" }}><IcSend size={16} /></button>
         </form>
       </div>
 
       {asked && (
-        <div className=”fs-widget” style={{ padding: “14px 16px”, display: “flex”, flexDirection: “column”, gap: “8px” }}>
-          <span style={{ fontSize: “var(--text-xs)”, color: “var(--text-muted)” }}>You asked — “{asked}”</span>
-          <span style={{ fontSize: “var(--text-sm)”, lineHeight: 1.65, color: “var(--text-primary)” }}>
-            <Typewriter key={asked + lang} text={t(“ai.reply”)} speed={18} />
+        <div className="fs-widget" style={{ padding: "14px 16px", display: "flex", flexDirection: "column", gap: "8px" }}>
+          <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>You asked — “{asked}”</span>
+          <span style={{ fontSize: "var(--text-sm)", lineHeight: 1.65, color: "var(--text-primary)" }}>
+            <Typewriter key={asked} text={reply} speed={18} />
           </span>
         </div>
       )}
@@ -424,9 +413,6 @@ function SathiAIPanel() {
 
 function DashboardPage() {
   const { SilverText, GlassBadge } = fsdDS;
-  const [lang, setLang] = React.useState(window.FsdI18n.getLang());
-  React.useEffect(() => window.FsdI18n.subscribe(setLang), []);
-  const t = window.FsdI18n.t;
   return (
     <div id="top" data-screen-label="Dashboard — post-login home" style={{ position: "relative", minHeight: "100vh" }}>
       <div className="fsd-env" aria-hidden="true">
@@ -440,8 +426,8 @@ function DashboardPage() {
         <div className="ds-c12" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", padding: "12px 4px 4px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             <span className="dash-kicker">Thursday · 12 June</span>
-            <SilverText as="h1" style={{ fontSize: "40px", margin: 0 }}>{t("dash.greeting")}</SilverText>
-            <span style={{ fontFamily: lang === "en" ? "var(--font-body)" : "var(--font-devanagari)", fontSize: "var(--text-sm)", color: "var(--text-secondary)", letterSpacing: "0.04em" }}>{t("dash.sub")}</span>
+            <SilverText as="h1" style={{ fontSize: "40px", margin: 0 }}>Hello, Asha.</SilverText>
+            <span style={{ fontFamily: "var(--font-body)", fontSize: "var(--text-sm)", color: "var(--text-secondary)", letterSpacing: "0.04em" }}>Your money, at a glance.</span>
           </div>
           <GlassBadge icon="🔥" tint="indigo" title="12-day streak" subtitle="Logging every day" />
         </div>
