@@ -154,6 +154,7 @@ function LandingHero() {
             </span>
           </Button>
         </div>
+        <Button variant="ghost" size="lg" href="dashboard.html" style={{ marginTop: "12px" }}>Try Demo →</Button>
       </div>
 
       {/* Deep navy card stage */}

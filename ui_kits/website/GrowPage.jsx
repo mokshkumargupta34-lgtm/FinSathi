@@ -33,6 +33,126 @@ function FsdPanelHead({ kicker, title, trailing }) {
   );
 }
 
+/* ---------- Modal shell ---------- */
+
+function FsdModal({ onClose, children }) {
+  React.useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+  return (
+    <div role="dialog" aria-modal="true" style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(5,9,20,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }} onClick={onClose}>
+      <div style={{ background: "linear-gradient(145deg, #162C6D 0%, #0A101D 100%)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "28px", padding: "32px", maxWidth: "480px", width: "100%", boxShadow: "0 40px 120px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.08)" }} onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Loan detail modal ---------- */
+
+function LoanDetailModal({ loan, onClose }) {
+  const { BrutalButton } = fsdDS;
+  const [applied, setApplied] = React.useState(false);
+  const totalPayable  = loan.emi * loan.months;
+  const totalInterest = totalPayable - loan.principal;
+  const stats = [
+    { label: "Loan amount",  value: `₹${loan.principal.toLocaleString("en-IN")}`, color: "var(--text-primary)" },
+    { label: "Monthly EMI",  value: `₹${loan.emi.toLocaleString("en-IN")}`,       color: "var(--emerald-400)"  },
+    { label: "Interest rate", value: loan.ratePerMonth === 0 ? "0% (Interest-free)" : `${loan.ratePerMonth}% / month`, color: "var(--text-primary)" },
+    { label: "Tenure",        value: `${loan.months} months`,                      color: "var(--text-primary)" },
+  ];
+  return (
+    <FsdModal onClose={onClose}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+        <div>
+          <span className="dash-kicker">Loan offer</span>
+          <h2 style={{ margin: "6px 0 0", fontFamily: "var(--font-display)", fontSize: "22px", fontWeight: 700, letterSpacing: "var(--tracking-tight)", color: "var(--text-primary)" }}>{loan.name}</h2>
+        </div>
+        <button onClick={onClose} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-muted)", cursor: "pointer", fontSize: "14px", padding: "6px 12px", borderRadius: "8px", fontFamily: "var(--font-body)" }}>✕ Close</button>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "16px" }}>
+        {stats.map((s) => (
+          <div key={s.label} className="fs-widget" style={{ padding: "14px 16px" }}>
+            <span className="dash-kicker" style={{ marginBottom: "4px", display: "block" }}>{s.label}</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "18px", fontWeight: 700, color: s.color }}>{s.value}</span>
+          </div>
+        ))}
+      </div>
+      {loan.ratePerMonth > 0 && (
+        <div className="fs-widget" style={{ padding: "14px 16px", marginBottom: "20px", display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)" }}>Total payable</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-sm)", color: "var(--text-primary)" }}>₹{totalPayable.toLocaleString("en-IN")}</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)" }}>Total interest</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-sm)", color: "#F87171" }}>₹{totalInterest.toLocaleString("en-IN")}</span>
+          </div>
+        </div>
+      )}
+      <p style={{ margin: "0 0 20px", fontSize: "var(--text-xs)", fontWeight: 300, color: "var(--text-muted)", lineHeight: 1.6 }}>RBI-registered lender. No hidden charges. Disbursed to your Jan Dhan account within 48 hours of approval.</p>
+      {applied
+        ? <div style={{ textAlign: "center", padding: "16px", color: "var(--emerald-400)", fontWeight: 600, fontSize: "var(--text-sm)" }}>✓ Application submitted — you'll hear back within 24 hours.</div>
+        : <BrutalButton style={{ width: "100%", justifyContent: "center", padding: "14px 24px", boxSizing: "border-box" }} onClick={() => setApplied(true)}>Apply now — ₹{loan.emi.toLocaleString("en-IN")}/mo</BrutalButton>
+      }
+    </FsdModal>
+  );
+}
+
+/* ---------- Lesson modal ---------- */
+
+const LESSON_CONTENT = {
+  default: [
+    "Yeh lesson aapko financial planning ke basic concepts samjhata hai — savings, budgeting, aur smart spending.",
+    "Har step mein practical tips hain jo aap apni zindagi mein turant apply kar sakte hain.",
+    "Video, infographics, aur quiz ke saath — seekhna aasaan aur mazedar hoga.",
+  ],
+};
+
+function LessonModal({ lesson, onClose }) {
+  const { BrutalButton } = fsdDS;
+  const [marked, setMarked] = React.useState(false);
+  const content = LESSON_CONTENT[lesson.title] || LESSON_CONTENT.default;
+  const isComplete = lesson.pct === 100;
+  const isActive   = lesson.pct > 0 && lesson.pct < 100;
+  return (
+    <FsdModal onClose={onClose}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px" }}>
+        <div>
+          <span className="dash-kicker">Sathi Academy</span>
+          <h2 style={{ margin: "6px 0 0", fontFamily: "var(--font-display)", fontSize: "20px", fontWeight: 700, letterSpacing: "var(--tracking-tight)", color: "var(--text-primary)", lineHeight: 1.3 }}>{lesson.title}</h2>
+          <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", fontFamily: "var(--font-devanagari)", display: "block", marginTop: "4px" }}>{lesson.meta}</span>
+        </div>
+        <button onClick={onClose} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-muted)", cursor: "pointer", fontSize: "14px", padding: "6px 12px", borderRadius: "8px", fontFamily: "var(--font-body)", flexShrink: 0 }}>✕</button>
+      </div>
+
+      {lesson.pct > 0 && (
+        <div style={{ marginBottom: "20px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--text-xs)", color: "var(--text-muted)", marginBottom: "6px" }}>
+            <span>Progress</span><span>{lesson.pct}%</span>
+          </div>
+          <span className="dash-bar"><i style={{ width: `${lesson.pct}%`, background: isComplete ? "var(--emerald-500)" : "var(--blue-500)" }}></i></span>
+        </div>
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
+        {content.map((para, i) => (
+          <p key={i} style={{ margin: 0, fontSize: "var(--text-sm)", lineHeight: 1.7, color: "var(--text-secondary)", fontFamily: "var(--font-devanagari)" }}>{para}</p>
+        ))}
+      </div>
+
+      {marked || isComplete
+        ? <div style={{ textAlign: "center", padding: "14px", color: "var(--emerald-400)", fontWeight: 600, fontSize: "var(--text-sm)" }}>✓ Lesson complete — shabash!</div>
+        : <BrutalButton style={{ width: "100%", justifyContent: "center", padding: "14px 24px", boxSizing: "border-box" }} onClick={() => setMarked(true)}>
+            {isActive ? "Continue lesson" : "Start lesson"}
+          </BrutalButton>
+      }
+    </FsdModal>
+  );
+}
+
 /* ---------- Page header ---------- */
 
 function GrowHeader() {
@@ -116,6 +236,7 @@ const LOANS = [
     status: "approved",
     pill: { label: "Pre-approved", cls: "dash-pill-emerald" },
     cta: "View offer",
+    principal: 25000, ratePerMonth: 1.5, months: 12, emi: 2265,
   },
   {
     name: "Jan Dhan Micro Loan",
@@ -123,6 +244,7 @@ const LOANS = [
     status: "approved",
     pill: { label: "Eligible",     cls: "dash-pill-emerald" },
     cta: "Apply now",
+    principal: 10000, ratePerMonth: 0, months: 6, emi: 1667,
   },
   {
     name: "Bandhan Partner Loan",
@@ -145,6 +267,7 @@ const LOANS = [
 function LoanMarketplaceFull() {
   const { BrutalButton, Button } = fsdDS;
   const { IcBanknote } = window.FsdIcons;
+  const [activeLoan, setActiveLoan] = React.useState(null);
   return (
     <section id="loans" className="dash-panel ds-c7" style={{ scrollMarginTop: "88px" }}>
       <FsdPanelHead kicker="Loan marketplace" title="Offers for you" trailing={<span className="dash-pill dash-pill-zinc">Matched to score 72</span>} />
@@ -161,13 +284,14 @@ function LoanMarketplaceFull() {
             </span>
             <span style={{ marginLeft: "auto", flexShrink: 0 }}>
               {l.status === "approved"
-                ? <BrutalButton style={{ padding: "10px 18px", fontSize: "13px" }}>{l.cta}</BrutalButton>
+                ? <BrutalButton style={{ padding: "10px 18px", fontSize: "13px" }} onClick={() => setActiveLoan(l)}>{l.cta}</BrutalButton>
                 : <Button variant="ghost" size="sm" href={l.ctaHref || "#trust-score"}>{l.cta}</Button>}
             </span>
           </div>
         ))}
       </div>
       <p style={{ margin: 0, fontSize: "var(--text-xs)", fontWeight: 300, color: "var(--text-muted)" }}>Offers from RBI-registered partners. Sathi never charges you to apply.</p>
+      {activeLoan && <LoanDetailModal loan={activeLoan} onClose={() => setActiveLoan(null)} />}
     </section>
   );
 }
@@ -214,6 +338,7 @@ const ACADEMY_MODULES = [
 function AcademyFull() {
   const { DeepCard, Button } = fsdDS;
   const { IcBookOpen, IcCheck } = window.FsdIcons;
+  const [activeLesson, setActiveLesson] = React.useState(null);
 
   const totalLessons = ACADEMY_MODULES.reduce((s, m) => s + m.lessons.length, 0);
   const doneLessons  = ACADEMY_MODULES.reduce((s, m) => s + m.lessons.filter((l) => l.pct === 100).length, 0);
@@ -230,7 +355,7 @@ function AcademyFull() {
           {mod.lessons.map((l) => {
             const isActive = l.pct > 0 && l.pct < 100;
             return (
-              <div key={l.title} className="fs-widget" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "11px 14px" }}>
+              <div key={l.title} className="fs-widget" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "11px 14px", cursor: "pointer" }} onClick={() => setActiveLesson(l)}>
                 <FsdIconWell icon={l.pct === 100 ? IcCheck : IcBookOpen} tone={l.pct === 100 ? "emerald" : isActive ? "blue" : "zinc"} size={30} />
                 <span style={{ display: "flex", flexDirection: "column", gap: "5px", flex: 1, minWidth: 0 }}>
                   <span style={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
@@ -239,12 +364,13 @@ function AcademyFull() {
                   </span>
                   {l.pct > 0 && <span className="dash-bar"><i style={{ width: `${l.pct}%`, background: l.pct === 100 ? "var(--emerald-500)" : "var(--blue-500)" }}></i></span>}
                 </span>
-                {isActive && <Button variant="ghost" size="sm" style={{ flexShrink: 0 }}>Continue</Button>}
+                {isActive && <Button variant="ghost" size="sm" style={{ flexShrink: 0 }} onClick={(e) => { e.stopPropagation(); setActiveLesson(l); }}>Continue</Button>}
               </div>
             );
           })}
         </div>
       ))}
+      {activeLesson && <LessonModal lesson={activeLesson} onClose={() => setActiveLesson(null)} />}
     </DeepCard>
   );
 }

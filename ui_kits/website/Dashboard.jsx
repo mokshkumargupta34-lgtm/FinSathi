@@ -33,6 +33,70 @@ function FsdPanelHead({ kicker, title, trailing }) {
   );
 }
 
+/* ---------- Modal shell ---------- */
+
+function FsdModal({ onClose, children }) {
+  React.useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+  return (
+    <div role="dialog" aria-modal="true" style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(5,9,20,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }} onClick={onClose}>
+      <div style={{ background: "linear-gradient(145deg, #162C6D 0%, #0A101D 100%)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "28px", padding: "32px", maxWidth: "460px", width: "100%", boxShadow: "0 40px 120px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.08)" }} onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function LoanDetailModal({ loan, onClose }) {
+  const { BrutalButton } = fsdDS;
+  const [applied, setApplied] = React.useState(false);
+  const totalPayable = loan.emi * loan.months;
+  const totalInterest = totalPayable - loan.principal;
+  const stats = [
+    { label: "Loan amount",  value: `₹${loan.principal.toLocaleString("en-IN")}`, color: "var(--text-primary)" },
+    { label: "Monthly EMI",   value: `₹${loan.emi.toLocaleString("en-IN")}`,       color: "var(--emerald-400)"  },
+    { label: "Interest rate", value: `${loan.ratePerMonth}% / month`,              color: "var(--text-primary)" },
+    { label: "Tenure",        value: `${loan.months} months`,                      color: "var(--text-primary)" },
+  ];
+  return (
+    <FsdModal onClose={onClose}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+        <div>
+          <span className="dash-kicker">Loan offer</span>
+          <h2 style={{ margin: "6px 0 0", fontFamily: "var(--font-display)", fontSize: "22px", fontWeight: 700, letterSpacing: "var(--tracking-tight)", color: "var(--text-primary)" }}>{loan.name}</h2>
+        </div>
+        <button onClick={onClose} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-muted)", cursor: "pointer", fontSize: "14px", padding: "6px 12px", borderRadius: "8px", fontFamily: "var(--font-body)" }}>✕ Close</button>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "16px" }}>
+        {stats.map((s) => (
+          <div key={s.label} className="fs-widget" style={{ padding: "14px 16px" }}>
+            <span className="dash-kicker" style={{ marginBottom: "4px", display: "block" }}>{s.label}</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "18px", fontWeight: 700, color: s.color }}>{s.value}</span>
+          </div>
+        ))}
+      </div>
+      <div className="fs-widget" style={{ padding: "14px 16px", marginBottom: "20px", display: "flex", flexDirection: "column", gap: "8px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)" }}>Total payable</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-sm)", color: "var(--text-primary)" }}>₹{totalPayable.toLocaleString("en-IN")}</span>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)" }}>Total interest</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-sm)", color: "#F87171" }}>₹{totalInterest.toLocaleString("en-IN")}</span>
+        </div>
+      </div>
+      <p style={{ margin: "0 0 20px", fontSize: "var(--text-xs)", fontWeight: 300, color: "var(--text-muted)", lineHeight: 1.6 }}>RBI-registered lender. No hidden charges. Disbursed to your Jan Dhan account within 48 hours of approval.</p>
+      {applied
+        ? <div style={{ textAlign: "center", padding: "16px", color: "var(--emerald-400)", fontWeight: 600, fontSize: "var(--text-sm)" }}>✓ Application submitted — you'll hear back within 24 hours.</div>
+        : <BrutalButton style={{ width: "100%", justifyContent: "center", padding: "14px 24px", boxSizing: "border-box" }} onClick={() => setApplied(true)}>Apply now — ₹{loan.emi.toLocaleString("en-IN")}/mo</BrutalButton>
+      }
+    </FsdModal>
+  );
+}
+
 /* ---------- 1 · Voice-first logger ---------- */
 
 function VoiceLogCard() {
@@ -152,7 +216,7 @@ function LedgerPanel() {
   const { IcArrowDownLeft, IcArrowUpRight } = window.FsdIcons;
   return (
     <section id="transactions" className="dash-panel ds-c5">
-      <FsdPanelHead kicker="Ledger" title="Transactions" trailing={<Button variant="link" size="sm">View all</Button>} />
+      <FsdPanelHead kicker="Ledger" title="Transactions" trailing={<Button variant="link" size="sm" href="money.html">View all</Button>} />
       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         {FSD_TXNS.map((t) => (
           <div key={t.title} className="fs-widget" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "11px 14px" }}>
@@ -207,7 +271,7 @@ function TrustPanel() {
         <IcTrendingUp size={13} /> +4 this month
       </span>
       <p style={{ margin: 0, fontSize: "var(--text-xs)", fontWeight: 300, lineHeight: 1.6, color: "var(--text-muted)", textWrap: "pretty" }}>Daily logging builds your score — micro-loans unlock at every level.</p>
-      <Button variant="dark" size="sm" href="#loans" style={{ width: "100%" }}>See loan offers</Button>
+      <Button variant="dark" size="sm" href="grow.html#loans" style={{ width: "100%" }}>See loan offers</Button>
     </section>
   );
 }
@@ -240,16 +304,19 @@ function AcademyPanel() {
           </div>
         ))}
       </div>
-      <Button variant="ghost" size="sm">Continue lesson 6</Button>
+      <Button variant="ghost" size="sm" href="grow.html#academy">Continue lesson 6</Button>
     </section>
   );
 }
 
 /* ---------- 7 · Loan marketplace ---------- */
 
+const SATHI_LOAN = { name: "Sathi Micro Finance", principal: 25000, ratePerMonth: 1.5, months: 12, emi: 2265 };
+
 function LoansPanel() {
   const { BrutalButton, Button } = fsdDS;
   const { IcBanknote } = window.FsdIcons;
+  const [activeLoan, setActiveLoan] = React.useState(null);
   return (
     <section id="loans" className="dash-panel ds-c7">
       <FsdPanelHead kicker="Loan marketplace" title="Offers for you" trailing={<span className="dash-pill dash-pill-zinc">Matched to score 72</span>} />
@@ -264,7 +331,7 @@ function LoansPanel() {
           <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>₹25,000 · 1.5%/mo · 12 months · EMI ₹2,265</span>
         </span>
         <span style={{ marginLeft: "auto", flexShrink: 0 }}>
-          <BrutalButton style={{ padding: "10px 18px", fontSize: "13px" }}>View offer</BrutalButton>
+          <BrutalButton style={{ padding: "10px 18px", fontSize: "13px" }} onClick={() => setActiveLoan(SATHI_LOAN)}>View offer</BrutalButton>
         </span>
       </div>
 
@@ -278,11 +345,12 @@ function LoansPanel() {
           <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>₹50,000 · 1.2%/mo · 24 months</span>
         </span>
         <span style={{ marginLeft: "auto", flexShrink: 0 }}>
-          <Button variant="ghost" size="sm" href="#trust-score">Improve score</Button>
+          <Button variant="ghost" size="sm" href="grow.html#trust-score">Improve score</Button>
         </span>
       </div>
 
       <p style={{ margin: 0, fontSize: "var(--text-xs)", fontWeight: 300, color: "var(--text-muted)" }}>Offers from RBI-registered partners. Sathi never charges you to apply.</p>
+      {activeLoan && <LoanDetailModal loan={activeLoan} onClose={() => setActiveLoan(null)} />}
     </section>
   );
 }
